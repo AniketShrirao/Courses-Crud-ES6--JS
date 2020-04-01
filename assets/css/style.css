@@ -126,35 +126,156 @@ header .wrapper {
   main styling starts here
 =================================*/
 
+main { text-align: center; }
 
+main .wrapper {
+  padding: 20px;
+  background-color:#f8f9fb;
+}
 
+main h3 {
+  margin: 20px;
+  font-size: 24px;
+  text-transform: capitalize;
+  word-spacing: 3px;
+}
 
+main .message {
+  position: absolute;
+  top: 30px;
+  right: 20%;
+  width: 20%;
+  padding: 15px 0;
+  border-radius: 15px;
+  color: #fff;
+  font-weight: 600;
+}
 
+form {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+.form-group,
+.form-control {
+  width: 100%;
+  position: relative;
+}
 
+.form-group input,
+.form-control .btn {
+  width: 60%;
+  padding: 8px 3.5%;
+  margin: 5px;
+}
+
+.form-group input {
+  border: 3px solid #a26e5e;
+  border-radius: 4px;
+}
+
+.form-group input::placeholder { text-transform: capitalize; }
+
+.form-group::before {
+  padding:8px 10px;
+  font-family: FontAwesome;
+  background: #a26e5e;
+  color: #fff; 
+  font-size: 18px;
+  left: 16.4%;
+  top: 5px;
+  position: absolute;
+}
+
+.form-group:nth-child(1)::before { content: '\f007'; }
+.form-group:nth-child(2)::before { content: '\f022'; }
+.form-group:nth-child(3)::before { content: '\f02d'; }
+
+.form-control .btn {
+  width: 68%;
+  margin-top: 10px;
+  border : 3px solid #d8d3d0;
+  background: #fff;
+  color: #d8d3d0;
+  text-transform: uppercase;
+  transition: all .3s ease;
+}
+
+.form-control .btn:hover { 
+  background: #28a745;
+  color: #fff;
+}
+
+.customer-list {
+  margin-top: 40px;
+  display: flex;
+}
+
+.customer {
+  width: 25%;
+  margin: 20px;
+  border: 1px solid #d8d3d0;
+  box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.4);
+}
+
+.customer img { max-height: 240px; }
+
+.customer-details{
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.customer-details li{
+  display: flex;
+  padding: 5px;
+  text-align: left;
+}
+
+.customer-details span {
+  display: inline-block;
+  padding: 5px 20px;
+  text-transform: capitalize;
+}
+
+.customer-details span[class*="label"] {
+  padding: 5px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.label-name { background: #ffc107; }
+.label-course { background: #28a745; }
+.label-author { background: #dc3545; }
+
+.error {
+  display: none;
+  background: #28a745;
+  position: absolute;
+  width: 14%;
+  padding: 10px;
+  top: 5px;
+  left: -15px;
+}
+.success {
+  background: #28a745;
+  position: absolute;
+  width: 14%;
+  padding: 10px;
+  top: 5px;
+  left: -15px;
+}
+
+.form-control .success-btn {
+  border : 3px solid #28a745;
+  color: #28a745;
+  font-weight: 600;
+}
 
 /*=================================
   main styling ends here
 =================================*/
-
-/*=================================
-  footer styling starts here
-=================================*/ 
-
-
-
-
-
-
-
- /*=================================
-  footer styling ends here
-=================================*/ 
-
-/*media query starts*/
-/*media query for 995px starts here*/
-@media only screen and (max-width: 995px) {
-
-
-
-}  
