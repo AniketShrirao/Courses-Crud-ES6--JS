@@ -31,16 +31,45 @@
     <!--header section start-->
     <!--main section start-->
     <main>
+      <div class="wrapper">
+      <h3>get a free course</h3>
+     <form id="customer-form">
+      <div class="form-group">
+       <input type="text" id="name" placeholder="customer name">
+       <span class="error">error</span>
+      </div>
+      <div class="form-group">
+        <input type="text" id="course" placeholder="course">
+       </div>
+       <div class="form-group">
+        <input type="text" id="author" placeholder="author">
+        <span class="error">error</span>
+       </div>
+       <div class="form-control">
+        <button type="submit" class="btn">submit</button>
+       </div>
+     </form>
 
+     <ul class="customer-list"> 
+       <li class="customer">
+        <img src="https://source.unsplash.com/random/240x240" class="customer-img" alt="customer">
+        <ul class="customer-details">
+          <li>
+            <span class="label-name">name :</span>
+            <span id="customer-name">john anderson</span>
+          </li>
+          <li>
+            <span class="label-course">course :</span>
+            <span id="customer-course">css basics</span>
+          </li>
+          <li>
+            <span class="label-author">author :</span>
+            <span id="course-author"> john anderson</span>
+          </li>
+        </ul>
+      </li>
     </main>
     <!--main section end-->
-
-    <!--footer section start-->
-    <footer>      
-
-    </footer>
-    <!--footer section end-->
-
   </div>
   <!--container end-->
   <script src="assets/js/script.js"></script>
