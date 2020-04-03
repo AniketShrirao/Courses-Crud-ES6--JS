@@ -8,89 +8,94 @@ class Customer {
 		this.author = author;
 	};
 }
-
+//  To maintain count of Customer
 var idCount = 0;
 // UI Class: Handle UI Tasks
 class UI {
+	// function to display on load
 	static displayCustomers() {
 		const Customers = Store.getCustomers();
-		Customers.forEach((ExisitingMember) => 
-		UI.displayCustomerInDom(ExisitingMember.pictureSource, ExisitingMember));
+		Customers.forEach((existingMember) =>
+			UI.displayCustomerInDom(existingMember.pictureSource, existingMember));
 	}
 
-	static addCustomerToList(NewCustomer) {
+	// function to display on click
+	static addCustomerToList(newCustomer) {
+		// api Url to retrieve a random image for every user
 		const Url = 'https://randomuser.me/api/';
 		fetch(Url)
 			.then(function (response) {
 				return response.json();
-			})
-			.then(function ({results:{0:{picture:{medium:profilePicture}}}} = data) {
-				NewCustomer.id = idCount;
-				NewCustomer.pictureSource = profilePicture;
-				// Add Customer to store
-				Store.addCustomer(NewCustomer);
+			}) //Api gives us an object in return we destructre only an image Source from that object
+			.then(function ({ results: { 0: { picture: { medium: profilePicture } } } } = data) {
+				newCustomer.id = idCount;
+				newCustomer.pictureSource = profilePicture;
+				// Adds Customer to localstorages
+				Store.addCustomer(newCustomer);
 				idCount++;
-				// Clear fields
+				// Clear  input fields
 				UI.clearFields();
 				let pictureSource = profilePicture;
-				UI.displayCustomerInDom(pictureSource, NewCustomer);
+				// display customer card in Dom
+				UI.displayCustomerInDom(pictureSource, newCustomer);
 				// Show success message
-					UI.showAlert('Customer Added', 'message-success');
+				UI.showAlert('Customer Added', 'message-success');
 			})
 			.catch(function (err) {
 				console.log("Something went wrong!: " + err);
 			});
 	}
-
-	static displayCustomerInDom(pictureSource, NewCustomer) {
+	// display customer card in Dom
+	static displayCustomerInDom(pictureSource, newCustomer) {
 		const list = document.querySelector('.customer-list');
 		const customerLi = document.createElement('li');
 		customerLi.innerHTML = `
-			<img src="${pictureSource}" class="customer-img" alt="${NewCustomer.name}">
+			<img src="${pictureSource}" class="customer-img" alt="${newCustomer.name}">
 			<ul class="customer-details">
 				<li>
 					<span class="label-name">name :</span>
-					<span id="customer-name">${NewCustomer.name}</span>
+					<span id="customer-name">${newCustomer.name}</span>
 				</li>
 				<li>
 					<span class="label-course">course :</span>
-					<span id="customer-course">${NewCustomer.course}</span>
+					<span id="customer-course">${newCustomer.course}</span>
 				</li>
 				<li>
 					<span class="label-author">author :</span>
-					<span id="Customer-author">${NewCustomer.author}</span>
+					<span id="Customer-author">${newCustomer.author}</span>
 				</li>
 			</ul>
 			`;
 		customerLi.classList.add('customer');
-		customerLi.setAttribute('data-Id', NewCustomer.id)
+		customerLi.setAttribute('data-Id', newCustomer.id)
 		list.appendChild(customerLi);
 	}
 
+	// remove customer card from Dom
 	static deleteCustomer(el) {
 		if (el.classList.contains('customer')) {
 			el.remove();
 		}
 	}
-
+	// displays an alert message
 	static showAlert(message, className) {
-		if(className === "error") {
+		if (className === "error") {
 			let errorSpans = document.querySelectorAll('.error');
 			errorSpans.forEach((errorSpan) => {
 				if (errorSpan.previousElementSibling.value === "") {
-				errorSpan.className = `${className} visible`;
-				errorSpan.innerText = message;
+					errorSpan.className = `${className} visible`;
+					errorSpan.innerText = message;
 				}
 			})
-		}else	if(className === "message-error" || className === "message-success"){
+		} else if (className === "message-error" || className === "message-success") {
 			const messageSpan = document.createElement('span');
-			const mainWrapper = document.querySelector('main h3');
+			const headingElement = document.querySelector('main h3');
 			messageSpan.className = `${className} visible`;
 			messageSpan.classList.add('message');
 			messageSpan.innerText = message;
-			mainWrapper.appendChild(messageSpan);
-			}
-		// Vanish in 3 seconds
+			headingElement.appendChild(messageSpan);
+		}
+		// alert Vanishes in 3 seconds
 		setTimeout(() => {
 			document.querySelectorAll('.visible').forEach((element) => {
 				element.classList.remove('visible');
@@ -98,6 +103,7 @@ class UI {
 		}, 3000);
 	}
 
+	// Clear  input fields
 	static clearFields() {
 		document.querySelector('#customer-form').reset();
 	}
@@ -105,6 +111,7 @@ class UI {
 
 // Store Class: Handles Storage
 class Store {
+	// Get Customer objects from LocalStorage
 	static getCustomers() {
 		let Customers;
 		if (localStorage.getItem('Customers') === null) {
@@ -116,20 +123,23 @@ class Store {
 		return Customers;
 	}
 
-	static addCustomer(NewCustomer) {
+	// Add Customer objects to LocalStorage
+	static addCustomer(newCustomer) {
 		const Customers = Store.getCustomers();
-		if (NewCustomer.id !== undefined) {
-			Customers.push(NewCustomer);
+		if (newCustomer.id !== undefined) {
+			Customers.push(newCustomer);
 			localStorage.setItem('Customers', JSON.stringify(Customers));
 		}
 	}
 
+	// Remove Customer objects from LocalStorage
 	static removeCustomer(el) {
 		if (el.classList.contains('customer')) {
 			const Customers = Store.getCustomers();
-			let ExistingCustomer = el;
-			Customers.splice(Customers.findIndex(e => 
-				e.id == ExistingCustomer.dataset.id), 1);
+			let existingCustomer = el;
+			// finding an id through filtering and splicing that object from array
+			Customers.splice(Customers.findIndex(e =>
+				e.id == existingCustomer.dataset.id), 1);
 			localStorage.setItem('Customers', JSON.stringify(Customers));
 		}
 	}
@@ -137,7 +147,6 @@ class Store {
 
 // Event: Display Customers
 document.addEventListener('DOMContentLoaded', UI.displayCustomers);
-
 // Event: Add a Customer
 document.querySelector('#customer-form').addEventListener('submit', (e) => {
 	// Prevent actual submit
@@ -147,39 +156,39 @@ document.querySelector('#customer-form').addEventListener('submit', (e) => {
 	const name = document.querySelector('#name').value;
 	const Course = document.querySelector('#course').value;
 	const author = document.querySelector('#author').value;
-	let AnyError = false;
+	let anyError = false;
 	// Validate
 	if (name === '' || author === '' || Course === '') {
 		UI.showAlert('Please fill this field!', 'error');
 	}
 	let errorSpans = document.querySelectorAll('.error');
 	errorSpans.forEach((errorSpan) => {
-		if(errorSpan.classList.contains('visible')) {
-			AnyError = true;
-	} else if(!AnyError) {
-		AnyError = false;
+		if (errorSpan.classList.contains('visible')) {
+			anyError = true;
+		} else if (!anyError) {
+			anyError = false;
 		}
 	});
-	if(!AnyError) {
+	if (!anyError) {
 		// Instatiate Customer
-		const NewCustomer = new Customer(name, Course, author);
+		const newCustomer = new Customer(name, Course, author);
 		// Add Customer to UI
-		UI.addCustomerToList(NewCustomer);
+		UI.addCustomerToList(newCustomer);
 	}
 });
 
 // Event: Remove a Customer
-setInterval(() =>{
+setInterval(() => {
 	document.querySelectorAll('.customer').forEach((element) => {
-		element.addEventListener('click',RemoveACustomer);
-	});	
-},2000);
+		element.addEventListener('click', removeACustomer);
+	});
+}, 2000);
 
-function RemoveACustomer(element) {
+function removeACustomer(element) {
 	// Remove Customer from store
 	Store.removeCustomer(element.currentTarget);
 	// Remove Customer from UI
 	UI.deleteCustomer(element.currentTarget);
-	// Show success message
+	// Show error message
 	UI.showAlert('Customer Removed', 'message-error');
 }
