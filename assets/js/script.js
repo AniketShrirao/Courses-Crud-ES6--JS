@@ -24,17 +24,21 @@ class UI {
 			.then(function (response) {
 				return response.json();
 			})
-			.then(function (data) {
+			.then(function ({results:{0:{picture:{medium:profilePicture}}}} = data) {
 				NewCustomer.id = idCount;
-				NewCustomer.pictureSource = data.results[0].picture.medium;
+				NewCustomer.pictureSource = profilePicture;
+				// Add Customer to store
 				Store.addCustomer(NewCustomer);
-				let pictureSource = data.results[0].picture.medium;
-				console.log(pictureSource);
-				UI.displayCustomerInDom(pictureSource, NewCustomer);
 				idCount++;
+				// Clear fields
+				UI.clearFields();
+				let pictureSource = profilePicture;
+				UI.displayCustomerInDom(pictureSource, NewCustomer);
+				// Show success message
+					UI.showAlert('Customer Added', 'message-success');
 			})
 			.catch(function (err) {
-				UI.showAlert("Something went wrong!: " + err, 'message');
+				console.log("Something went wrong!: " + err);
 			});
 	}
 
@@ -70,27 +74,32 @@ class UI {
 	}
 
 	static showAlert(message, className) {
-		if (className === 'error') {
-			const errorSpans = document.querySelectorAll('.error');
+		if(className === "error") {
+			let errorSpans = document.querySelectorAll('.error');
 			errorSpans.forEach((errorSpan) => {
+				if (errorSpan.previousElementSibling.value === "") {
 				errorSpan.className = `${className} visible`;
 				errorSpan.innerText = message;
+				}
 			})
-		} else {
+		}else	if(className === "message-error" || className === "message-success"){
 			const messageSpan = document.createElement('span');
-			messageSpan.className = `${className} visible`;
-			messageSpan.innerText = message;
 			const mainWrapper = document.querySelector('main h3');
+			messageSpan.className = `${className} visible`;
+			messageSpan.classList.add('message');
+			messageSpan.innerText = message;
 			mainWrapper.appendChild(messageSpan);
-		}
+			}
 		// Vanish in 3 seconds
-		setTimeout(() => document.querySelector('.visible').remove(), 3000);
+		setTimeout(() => {
+			document.querySelectorAll('.visible').forEach((element) => {
+				element.classList.remove('visible');
+			})
+		}, 3000);
 	}
 
 	static clearFields() {
-		document.querySelector('#name').value = '';
-		document.querySelector('#author').value = '';
-		document.querySelector('#course').value = '';
+		document.querySelector('#customer-form').reset();
 	}
 }
 
@@ -138,43 +147,39 @@ document.querySelector('#customer-form').addEventListener('submit', (e) => {
 	const name = document.querySelector('#name').value;
 	const Course = document.querySelector('#course').value;
 	const author = document.querySelector('#author').value;
-
+	let AnyError = false;
 	// Validate
 	if (name === '' || author === '' || Course === '') {
-		UI.showAlert('Please fill in all fields', 'error');
-	} else {
+		UI.showAlert('Please fill this field!', 'error');
+	}
+	let errorSpans = document.querySelectorAll('.error');
+	errorSpans.forEach((errorSpan) => {
+		if(errorSpan.classList.contains('visible')) {
+			AnyError = true;
+	} else if(!AnyError) {
+		AnyError = false;
+		}
+	});
+	if(!AnyError) {
 		// Instatiate Customer
 		const NewCustomer = new Customer(name, Course, author);
-
 		// Add Customer to UI
 		UI.addCustomerToList(NewCustomer);
-
-		// Add Customer to store
-		// Store.addCustomer(NewCustomer);
-
-		// Show success message
-		UI.showAlert('Customer Added', 'message success');
-
-		// Clear fields
-		UI.clearFields();
 	}
 });
 
 // Event: Remove a Customer
-function RemoveACustomer() {
+setInterval(() =>{
 	document.querySelectorAll('.customer').forEach((element) => {
-		element.addEventListener('click', (e) => {
+		element.addEventListener('click',RemoveACustomer);
+	});	
+},2000);
 
-			// Remove Customer from store
-			Store.removeCustomer(element);
-			// Remove Customer from UI
-			UI.deleteCustomer(element);
-			// Show success message
-			UI.showAlert('Customer Removed', 'success');
-		});
-	});
-
+function RemoveACustomer(element) {
+	// Remove Customer from store
+	Store.removeCustomer(element.currentTarget);
+	// Remove Customer from UI
+	UI.deleteCustomer(element.currentTarget);
+	// Show success message
+	UI.showAlert('Customer Removed', 'message-error');
 }
-if (document.querySelector('.customer-list').childElementCount !== 0) {
-	setInterval(RemoveACustomer, 2000);
-} else { clearInterval(RemoveACustomer, 2000); }
