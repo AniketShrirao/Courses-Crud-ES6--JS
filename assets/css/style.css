@@ -142,13 +142,13 @@ main h3 {
 }
 
 .message {
-  position: absolute;
-  top: 20px;
   width: 20%;
   padding: 15px 0;
   border-radius: 15px;
   color: #fff;
   font-weight: 600;
+  position: absolute;
+  top: 20px;
   left: 61%;
   transform: scale(0);
 }
@@ -183,9 +183,9 @@ form {
 
 .form-group::before {
   padding:8px 10px;
-  font-family: FontAwesome;
   background: #a26e5e;
   color: #fff; 
+  font-family: FontAwesome;
   font-size: 18px;
   left: 16.4%;
   top: 5px;
@@ -221,8 +221,9 @@ form {
   width: 24%;
   margin: 10px;
   border: 1px solid #d8d3d0;
-  box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.4);
   cursor: pointer;
+  position: relative;
+  transition: all .3s ease;
   animation-name: fade;
   animation-duration: 2s;
   animation-timing-function: ease;
@@ -237,25 +238,28 @@ form {
   }
 }
 
+.customer:hover{ box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.4); }
+
 .customer:hover::before {
   content: "to delete click me";
-  position: absolute;
-  top: -40px;
+  padding: 5px 6%;
   border-radius: 10px;
   background: chartreuse;
-  padding: 5px 6%;
   color: darkslategrey;
   font-weight: 600;
+  position: absolute;
+  top: -40px;
+  transition: all .3s ease;
 }
 
 .customer:hover::after {
-content: '';
-border-top: solid 10px chartreuse;
-border-left: solid 10px transparent;
-border-right: solid 10px transparent;
-position: absolute;
-top: -13px;
-left: 24%;
+  content: '';
+  border-top: solid 10px chartreuse;
+  border-left: solid 10px transparent;
+  border-right: solid 10px transparent;
+  position: absolute;
+  top: -13px;
+  left: 24%;
 }
 
 .customer img { max-height: 240px; }
@@ -266,14 +270,14 @@ left: 24%;
   flex-direction: column;
 }
 .customer-details li{
-  display: flex;
   padding: 5px;
+  display: flex;
   text-align: left;
 }
 
 .customer-details span {
-  display: inline-block;
   padding: 5px 20px;
+  display: inline-block;
   text-transform: capitalize;
 }
 
