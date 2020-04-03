@@ -131,6 +131,7 @@ main { text-align: center; }
 main .wrapper {
   padding: 20px;
   background-color:#f8f9fb;
+  position: relative;
 }
 
 main h3 {
@@ -140,15 +141,16 @@ main h3 {
   word-spacing: 3px;
 }
 
-main .message {
+.message {
   position: absolute;
-  top: 30px;
-  right: 20%;
+  top: 20px;
   width: 20%;
   padding: 15px 0;
   border-radius: 15px;
   color: #fff;
   font-weight: 600;
+  left: 61%;
+  transform: scale(0);
 }
 
 form {
@@ -212,13 +214,26 @@ form {
 .customer-list {
   margin-top: 40px;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .customer {
-  width: 25%;
-  margin: 20px;
+  width: 24%;
+  margin: 10px;
   border: 1px solid #d8d3d0;
   box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.4);
+  animation-name: fade;
+  animation-duration: 2s;
+  animation-timing-function: ease;
+}
+
+@keyframes fade {
+  from{
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .customer img { max-height: 240px; }
@@ -252,23 +267,22 @@ form {
 .label-course { background: #28a745; }
 .label-author { background: #dc3545; }
 
-.error {
-  display: none;
-  background: #28a745;
-  position: absolute;
-  width: 14%;
-  padding: 10px;
-  top: 5px;
-  left: -15px;
-}
+.error,
 .success {
-  background: #28a745;
-  position: absolute;
   width: 14%;
   padding: 10px;
+  border-radius: 5px;
+  background: #dc3545;
+  color: #fff;
+  position: absolute;
   top: 5px;
   left: -15px;
+  transform: scale(0);
 }
+
+.success,
+.message-success { background: #28a745; }
+.message-error { background: #dc3545;}
 
 .form-control .success-btn {
   border : 3px solid #28a745;
@@ -276,6 +290,11 @@ form {
   font-weight: 600;
 }
 
+.visible { 
+  display: inline-block;
+  transform: scale(1);
+  transition: all .3s ease-in-out;
+ }
 /*=================================
   main styling ends here
 =================================*/
