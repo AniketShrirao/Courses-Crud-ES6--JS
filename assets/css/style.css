@@ -222,6 +222,7 @@ form {
   margin: 10px;
   border: 1px solid #d8d3d0;
   box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
   animation-name: fade;
   animation-duration: 2s;
   animation-timing-function: ease;
@@ -234,6 +235,27 @@ form {
   to {
     opacity: 1;
   }
+}
+
+.customer:hover::before {
+  content: "to delete click me";
+  position: absolute;
+  top: -40px;
+  border-radius: 10px;
+  background: chartreuse;
+  padding: 5px 6%;
+  color: darkslategrey;
+  font-weight: 600;
+}
+
+.customer:hover::after {
+content: '';
+border-top: solid 10px chartreuse;
+border-left: solid 10px transparent;
+border-right: solid 10px transparent;
+position: absolute;
+top: -13px;
+left: 24%;
 }
 
 .customer img { max-height: 240px; }
