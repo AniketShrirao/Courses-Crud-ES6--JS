@@ -8,8 +8,9 @@ class Customer {
 		this.author = author;
 	};
 }
-//  To maintain count of Customer
-var idCount = 0;
+
+// To maintain count of Customer
+let idCount = 0;
 // UI Class: Handle UI Tasks
 class UI {
 	// function to display on load
@@ -21,6 +22,8 @@ class UI {
 
 	// function to display on click
 	static addCustomerToList(newCustomer) {
+		// default Image source
+		let profilePicture = "https://source.unsplash.com/random";
 		// api Url to retrieve a random image for every user
 		const Url = 'https://randomuser.me/api/';
 		fetch(Url)
